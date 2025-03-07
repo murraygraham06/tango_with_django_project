@@ -2,4 +2,18 @@ from django.contrib import admin
 from rango.models import Category, Page
 
 admin.site.register(Category)
-admin.site.register(Page)
+
+
+class ChoiceInline(admin.TabularInline):
+    model = Category
+    extra = 3
+
+class PageAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Title', {'fields': ['title']}),
+        ('Category', {'fields': ['category']}),
+        ('URL', {'fields': ['url'], 'classes': ['collapse']}),
+    ]
+    list_display = ( 'title', 'category', 'url')
+
+admin.site.register(Page, PageAdmin)
